@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    const collectGzCurveDetails = (curveDetails)=>{
+        setGzCurveDetailsData(curveDetails)
+      }
+      const firstDivRef = useRef(null);
+      const secondDivRef = useRef(null);
+      const thirdDivRef = useRef(null);
+      const fourthDivRef = useRef(null);
+      
+      const tabContentRef = useRef(null);
+      const handleScroll = () => {
+        // Calculate the scroll position relative to the top of the tab content
+        const scrollPosition = tabContentRef.current.scrollTop;
+      
+        // Get the height of each tab content
+        const firstDivHeight = firstDivRef?.current?.clientHeight??0;
+        const secondDivHeight = secondDivRef?.current?.clientHeight??0;
+        const thirdDivHeight = thirdDivRef?.current?.clientHeight??0;
+        const fourthDivHeight = fourthDivRef?.current?.clientHeight??0;
+      
+      
+      
+      
+      
+        // Determine which tab is currently in view based on scroll position
+        if (firstDivHeight && (scrollPosition < firstDivHeight)) {
+          setTabValueFront(0);
+        } else if (secondDivHeight && (scrollPosition < firstDivHeight + secondDivHeight)) {
+          setTabValueFront(1);
+        } else if (thirdDivHeight && (scrollPosition < firstDivHeight + secondDivHeight + thirdDivHeight)) {
+          setTabValueFront(2);
+        } else  if (fourthDivHeight && (scrollPosition < firstDivHeight + secondDivHeight + thirdDivHeight+fourthDivHeight)){
+          setTabValueFront(3);
+        }
+      };
+      useEffect(() => {
+      
+      
+        tabContentRef.current.addEventListener('scroll', handleScroll);
+      
+        return () => {
+          if( tabContentRef.current)
+          tabContentRef.current.removeEventListener('scroll', handleScroll);
+        
+        };
+      }, []);
+      useEffect(() => {
+          if (tabValueFront === 0) {
+          tabContentRef.current.removeEventListener('scroll', handleScroll);
+              firstDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          tabContentRef.current.addEventListener('scroll', handleScroll);
+          } else if (tabValueFront === 1) {
+          tabContentRef.current.removeEventListener('scroll', handleScroll);
+              secondDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          tabContentRef.current.addEventListener('scroll', handleScroll);
+          } else if (tabValueFront === 2) {
+          tabContentRef.current.removeEventListener('scroll', handleScroll);
+              thirdDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          tabContentRef.current.addEventListener('scroll', handleScroll);
+          } else if (tabValueFront === 3) {
+          tabContentRef.current.removeEventListener('scroll', handleScroll);
+              fourthDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          tabContentRef.current.addEventListener('scroll', handleScroll);
+          }
+      }, [tabChange]);
+      
+      
+      
+      <div height="348px" ref = {tabContentRef}>
+      
+      <div ref = {firstDivRef}>
+        first Div
+      </div>
+      
+      <div ref = {SecondDivRef}>
+        Second Div
+      </div>
+      
+      <div ref = {thirdDivRef}>
+        third Div
+      </div>
+      <div ref = {fourthDivRef}>
+        Fourth Div
+      </div>
+      
+      
+      </div>
+    
+</body>
+</html>
